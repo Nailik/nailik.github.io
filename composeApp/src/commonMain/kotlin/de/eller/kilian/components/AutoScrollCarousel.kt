@@ -1,9 +1,12 @@
 package de.eller.kilian.components
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,14 +15,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.carousel.HorizontalCenteredHeroCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -27,7 +33,7 @@ import org.jetbrains.compose.resources.painterResource
 /**
  * Material3 carousel animated to showcase all images
  *
- * TODO currently no auto animation to to compose material but
+ * TODO currently no auto animation
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,10 +44,13 @@ fun AutoScrollCarousel(
     images: ImmutableList<DrawableResource>,
 ) {
 
-    /*
+    val coroutineScope = rememberCoroutineScope()
+    val carouselState = rememberCarouselState { images.size }
         val width = with(LocalDensity.current) { maxItemWidth.toPx() }
         LaunchedEffect(Unit) {
-            //return@LaunchedEffect
+            //there is a bug in material therefore animation is disabled
+            return@LaunchedEffect
+            @Suppress("KotlinUnreachableCode")
             coroutineScope.launch {
                 delay(1000)
                 var direction = 1
@@ -70,14 +79,12 @@ fun AutoScrollCarousel(
                     }
                 }*/
             }
-        }*/
+        }
 
     BoxWithConstraints(
         modifier = Modifier.animateContentSize()
     ) {
 
-        val carouselState = rememberCarouselState { images.size }
-        val coroutineScope = rememberCoroutineScope()
         val isClickable = maxWidth < ((maxItemWidth + 16.dp) * images.size + 16.dp)
 
         HorizontalCenteredHeroCarousel(
