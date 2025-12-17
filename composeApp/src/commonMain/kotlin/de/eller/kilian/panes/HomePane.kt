@@ -20,7 +20,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.SpaceDashboard
 import androidx.compose.material.icons.outlined.ViewTimeline
-import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -153,7 +153,7 @@ fun HomePane(
                 horizontalSpacing = 16.dp,
                 verticalSpacing = 16.dp,
             ) {
-                Card(
+                ElevatedCard(
                     modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
                     onClick = onOpenProjects,
                 ) {
@@ -212,7 +212,7 @@ fun HomePane(
                     }
                 }
 
-                Card(
+                ElevatedCard(
                     modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
                     onClick = onOpenTimeline,
                 ) {

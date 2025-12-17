@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.expressiveLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -18,6 +16,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import de.eller.kilian.navigation.HomeEntry
 import de.eller.kilian.navigation.NavItem
 import de.eller.kilian.navigation.NavigationLayout
+import de.eller.kilian.theme.AppTypography
+import de.eller.kilian.theme.darkScheme
+import de.eller.kilian.theme.lightScheme
 
 /**
  * Stores if currently dark mode is enabled, can be used to switch icons
@@ -46,7 +47,8 @@ fun AppTheme(
     content: @Composable () -> Unit,
 ) {
     MaterialExpressiveTheme(
-        colorScheme = if (darkMode) darkColorScheme() else expressiveLightColorScheme(),
+        colorScheme = if (darkMode) darkScheme else lightScheme,
+        typography = AppTypography,
     ) {
         CompositionLocalProvider(
             LocalDarkModeScope provides darkMode,
