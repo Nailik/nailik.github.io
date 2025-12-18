@@ -5,6 +5,7 @@ import androidx.compose.runtime.produceState
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import de.eller.kilian.theme.Favicon
 import kotlinx.coroutines.delay
 import org.jetbrains.skiko.SystemTheme.DARK
 import org.jetbrains.skiko.currentSystemTheme

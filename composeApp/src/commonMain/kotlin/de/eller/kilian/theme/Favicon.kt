@@ -1,4 +1,4 @@
-package de.eller.kilian
+package de.eller.kilian.theme
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush

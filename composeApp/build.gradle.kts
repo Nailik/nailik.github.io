@@ -5,13 +5,13 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.aboutlibraries)
+    alias(libs.plugins.androidKotlinMultiplatform)
 }
 
 kotlin {
@@ -21,16 +21,17 @@ kotlin {
         binaries.executable()
     }
     jvm("desktop")
-    androidTarget {
+    @Suppress("UnstableApiUsage")
+    androidLibrary {
+        compileSdk = 36
+        namespace = "de.eller.kilian"
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_22)
         }
+        experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.androidx.activity.compose)
-        }
         commonMain.dependencies {
             implementation(libs.androidx.navigation3.ui)
             implementation(libs.androidx.navigation3.runtime)
@@ -62,15 +63,24 @@ kotlin {
     }
 }
 
+dependencies {
+    "androidRuntimeClasspath"(libs.compose.ui.tooling)
+}
+
 aboutLibraries {
     library {
         duplicationMode = MERGE
         duplicationRule = SIMPLE
     }
+    export {
+        outputFile = file("src/commonMain/composeResources/files/libraries.json")
+    }
 }
 
 compose.resources {
+    publicResClass = true
     packageOfResClass = "de.eller.kilian.resources"
+    generateResClass = always
 }
 
 compose.desktop {
@@ -96,43 +106,6 @@ compose.desktop {
             }
         }
     }
-}
-
-android {
-    compileSdk = 36
-    namespace = "de.eller.kilian" // package name
-
-    defaultConfig {
-        applicationId = "de.eller.kilian" // mandatory for apps
-        minSdk = 23
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_22
-        targetCompatibility = JavaVersion.VERSION_22
-    }
-
-    kotlin {
-        jvmToolchain(22)
-    }
-}
-
-dependencies {
-    implementation(libs.compose.ui.tooling)
-    implementation(compose.preview)
 }
 
 val copyWasmDist by tasks.register<Copy>("copyWasmDist") {
