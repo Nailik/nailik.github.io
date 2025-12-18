@@ -32,7 +32,14 @@ fun EqualSizeFlowRow(
 
 
         // 1. Compute max intrinsic width among all children
-        val maxWidth = measurables.maxOf { it.maxIntrinsicWidth(constraints.maxHeight) }
+        val maxWidth = measurables.maxOf {
+            try {
+                it.maxIntrinsicWidth(constraints.maxHeight)
+            } catch (_: IllegalStateException) {
+                //probably out of range exception
+                16777215
+            }
+        }
 
         val itemCount = measurables.size
         val maxRowCapacity =
@@ -73,7 +80,7 @@ fun EqualSizeFlowRow(
         val totalHeight = rowHeights.sum() + max(0, rowHeights.size - 1) * vSpacingPx
 
         // 5. Layout children
-        layout(constraints.maxWidth, totalHeight) {
+        layout(minOf(constraints.maxWidth, 16777215), totalHeight) {
             var y = 0
             placeablesRows.forEachIndexed { rowIndex, rowPlaceables ->
                 val rowHeight = rowHeights[rowIndex]

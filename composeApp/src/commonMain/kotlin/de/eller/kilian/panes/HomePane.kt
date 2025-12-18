@@ -20,6 +20,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.SpaceDashboard
 import androidx.compose.material.icons.outlined.ViewTimeline
+import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -154,7 +155,8 @@ fun HomePane(
                 verticalSpacing = 16.dp,
             ) {
                 ElevatedCard(
-                    modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
+                    modifier = Modifier
+                        .pointerHoverIcon(PointerIcon.Hand),
                     onClick = onOpenProjects,
                 ) {
                     Column(
@@ -180,17 +182,17 @@ fun HomePane(
                             style = MaterialTheme.typography.headlineMedium,
                         )
 
-                        FlowRow(
-                            horizontalArrangement = Arrangement.spacedBy(
-                                12.dp,
-                                Alignment.CenterHorizontally
-                            ),
-                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                        EqualSizeFlowRow(
+                            modifier = Modifier
+                                .widthIn(max = 450.dp),
+                            horizontalSpacing = 12.dp,
+                            verticalSpacing = 12.dp,
                         ) {
                             Project.entries.forEach { project ->
                                 WithSharedTransitionScope { animatedContentScope ->
                                     Box(
                                         modifier = Modifier
+                                            .size(48.dp)
                                             .clip(MaterialTheme.shapes.small)
                                             .sharedElement(
                                                 sharedContentState = rememberSharedContentState(key = "project_image_${project.key}"),
@@ -198,7 +200,8 @@ fun HomePane(
                                             )
                                     ) {
                                         Image(
-                                            modifier = Modifier.size(48.dp)
+                                            modifier = Modifier
+                                                .size(48.dp)
                                                 .clip(MaterialTheme.shapes.small),
                                             painter = painterResource(project.image),
                                             contentDescription = null,
@@ -213,7 +216,9 @@ fun HomePane(
                 }
 
                 ElevatedCard(
-                    modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
+                    modifier = Modifier
+                        .widthIn(max = 450.dp)
+                        .pointerHoverIcon(PointerIcon.Hand),
                     onClick = onOpenTimeline,
                 ) {
                     Column(
