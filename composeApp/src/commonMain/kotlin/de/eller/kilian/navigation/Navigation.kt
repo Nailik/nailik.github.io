@@ -12,6 +12,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
@@ -76,6 +77,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import androidx.window.core.layout.WindowSizeClass.Companion.HEIGHT_DP_MEDIUM_LOWER_BOUND
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_EXPANDED_LOWER_BOUND
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 import de.eller.kilian.Languages
@@ -446,9 +448,11 @@ private fun AdaptiveNavigationSuite(
             WideNavigationRail(
                 state = wideNavigationRailState,
                 header = {
-                    WideNavigationRailButton(
-                        railState = wideNavigationRailState,
-                    )
+                    if(navigationSuiteType.navigationType != NavigationRail) {
+                        WideNavigationRailButton(
+                            railState = wideNavigationRailState,
+                        )
+                    }
                 },
                 content = navigationContent,
             )
@@ -613,8 +617,14 @@ private fun calculateNavigationSuiteType() = with(currentWindowAdaptiveInfo()) {
     when (windowSizeClass.minWidthDp) {
         0 -> NavigationSuiteType.ShortNavigationBarCompact
         WIDTH_DP_MEDIUM_LOWER_BOUND -> NavigationSuiteType.ShortNavigationBarMedium
-        WIDTH_DP_EXPANDED_LOWER_BOUND -> NavigationSuiteType.WideNavigationRailCollapsed
-        else -> NavigationSuiteType.WideNavigationRailExpanded
+        WIDTH_DP_EXPANDED_LOWER_BOUND -> when(windowSizeClass.minHeightDp) {
+            HEIGHT_DP_MEDIUM_LOWER_BOUND -> NavigationSuiteType.NavigationRail
+            else ->  NavigationSuiteType.WideNavigationRailCollapsed
+        }
+        else -> when(windowSizeClass.minHeightDp) {
+            HEIGHT_DP_MEDIUM_LOWER_BOUND -> NavigationSuiteType.NavigationRail
+            else ->  NavigationSuiteType.WideNavigationRailExpanded
+        }
     }
 }
 
@@ -632,7 +642,8 @@ enum class NavigationType {
 private val NavigationSuiteType.navigationType: NavigationType
     get() =
         if (this == NavigationSuiteType.WideNavigationRailCollapsed ||
-            this == NavigationSuiteType.WideNavigationRailExpanded
+            this == NavigationSuiteType.WideNavigationRailExpanded ||
+            this == NavigationSuiteType.NavigationRail
         ) NavigationRail else NavigationBar
 
 
