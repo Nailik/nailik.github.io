@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuOpen
@@ -61,6 +63,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
@@ -69,6 +72,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
@@ -131,6 +135,7 @@ fun NavigationLayout(
         when (navigationSuiteType) {
             NavigationSuiteType.WideNavigationRailExpanded -> wideNavigationRailState.expand()
             NavigationSuiteType.WideNavigationRailCollapsed -> wideNavigationRailState.collapse()
+            NavigationSuiteType.NavigationRail -> wideNavigationRailState.collapse()
         }
     }
 
@@ -170,33 +175,44 @@ fun NavigationLayout(
 private fun TopBar(
     onOpenHomePane: () -> Unit,
 ) {
-    TopAppBar(
-        title = {
-            Text(
-                modifier = Modifier
-                    .pointerHoverIcon(PointerIcon.Hand)
-                    .clip(MaterialTheme.shapes.small)
-                    .clickable(
-                        onClick = onOpenHomePane,
-                        role = Role.Button,
-                    )
-                    .padding(8.dp),
-                text = stringResource(Res.string.pane_home_name),
-                maxLines = 1,
-            )
-        },
-        actions = {
-            TopAppBarActions()
-        }
-    )
+    val textWidth = mutableStateOf(0)
+
+    BoxWithConstraints {
+        TopAppBar(
+            title = {
+                Text(
+                    modifier = Modifier
+                        .pointerHoverIcon(PointerIcon.Hand)
+                        .clip(MaterialTheme.shapes.small)
+                        .clickable(
+                            onClick = onOpenHomePane,
+                            role = Role.Button,
+                        )
+                        .padding(8.dp)
+                        .onGloballyPositioned {
+                            textWidth.value = it.size.width
+                        },
+                    text = stringResource(Res.string.pane_home_name),
+                    maxLines = 1,
+                )
+            },
+            actions = {
+                TopAppBarActions(
+                    modifier = Modifier
+                        .fillMaxWidth(0.5f)
+                        .wrapContentWidth(Alignment.End)
+                )
+            }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBarActions() {
+private fun TopAppBarActions(modifier: Modifier) {
     val uriHandler = LocalUriHandler.current
     AppBarRow(
-        modifier = Modifier.fillMaxWidth(0.5f),
+        modifier = modifier,
         overflowIndicator = { state ->
             IconButton(
                 modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
@@ -449,7 +465,7 @@ private fun AdaptiveNavigationSuite(
             WideNavigationRail(
                 state = wideNavigationRailState,
                 header = {
-                    if(navigationSuiteType.navigationType != NavigationRail) {
+                    if(navigationSuiteType != NavigationSuiteType.NavigationRail) {
                         WideNavigationRailButton(
                             railState = wideNavigationRailState,
                         )
@@ -618,12 +634,12 @@ private fun calculateNavigationSuiteType() = with(currentWindowAdaptiveInfo()) {
     when (windowSizeClass.minWidthDp) {
         0 -> NavigationSuiteType.ShortNavigationBarCompact
         WIDTH_DP_MEDIUM_LOWER_BOUND -> NavigationSuiteType.ShortNavigationBarMedium
-        WIDTH_DP_EXPANDED_LOWER_BOUND -> when(windowSizeClass.minHeightDp) {
-            HEIGHT_DP_MEDIUM_LOWER_BOUND -> NavigationSuiteType.NavigationRail
+        WIDTH_DP_EXPANDED_LOWER_BOUND -> when {
+            windowSizeClass.minHeightDp < HEIGHT_DP_MEDIUM_LOWER_BOUND -> NavigationSuiteType.NavigationRail
             else ->  NavigationSuiteType.WideNavigationRailCollapsed
         }
-        else -> when(windowSizeClass.minHeightDp) {
-            HEIGHT_DP_MEDIUM_LOWER_BOUND -> NavigationSuiteType.NavigationRail
+        else -> when {
+            windowSizeClass.minHeightDp < HEIGHT_DP_MEDIUM_LOWER_BOUND -> NavigationSuiteType.NavigationRail
             else ->  NavigationSuiteType.WideNavigationRailExpanded
         }
     }
