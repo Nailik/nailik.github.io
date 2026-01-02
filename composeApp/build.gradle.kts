@@ -132,5 +132,10 @@ val gitCommitDocs by tasks.register<Exec>("gitAddDocs") {
 }
 
 tasks.named("wasmJsBrowserDistribution") {
+    dependsOn("exportLibraryDefinitions")
     finalizedBy(gitCommitDocs)
+}
+
+tasks.named("copyNonXmlValueResourcesForCommonMain") {
+    dependsOn("exportLibraryDefinitions")
 }
