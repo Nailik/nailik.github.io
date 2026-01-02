@@ -196,6 +196,7 @@ private fun TopBar(
 private fun TopAppBarActions() {
     val uriHandler = LocalUriHandler.current
     AppBarRow(
+        modifier = Modifier.fillMaxWidth(0.5f),
         overflowIndicator = { state ->
             IconButton(
                 modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
