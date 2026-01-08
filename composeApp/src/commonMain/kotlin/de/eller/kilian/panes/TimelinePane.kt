@@ -243,31 +243,31 @@ private fun EmployerListItem(
                 modifier = Modifier.padding(vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                Text(
-                    modifier = Modifier
-                        .semantics {
-                            traversalIndex = 2f
-                            heading()
-                        },
-                    text = stringResource(employer.company),
-                )
                 WithSharedTransitionScope { animatedContentScope ->
                     Text(
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .semantics {
+                                traversalIndex = 2f
+                                heading()
+                            }
                             .sharedElement(
                                 sharedContentState = rememberSharedContentState(key = "employer_company_${employer.key}"),
                                 animatedVisibilityScope = animatedContentScope,
-                            ).semantics {
-                                traversalIndex = 1f
-                                heading()
-                            },
-                        text = stringResource(employer.jobTitle),
-                        style = LocalTextStyle.current.copy(
-                            fontWeight = FontWeight.Bold,
-                        ),
+                            ),
+                        text = stringResource(employer.company),
                     )
                 }
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth().semantics {
+                            traversalIndex = 1f
+                            heading()
+                        },
+                    text = stringResource(employer.jobTitle),
+                    style = LocalTextStyle.current.copy(
+                        fontWeight = FontWeight.Bold,
+                    ),
+                )
             }
         },
         supportingContent = {
