@@ -134,12 +134,12 @@
     <string name="month_november">November</string>
     <string name="month_december">December</string>
     <string name="work_project_hey_obi_introduction">The heyOBI and heyOBI Profi apps serve over 3 million users within the OBI DIY retail ecosystem.
-I played a key role in modernizing the Android application by leading the migration to Jetpack Compose,
-strengthening CI/CD pipelines, restructuring app navigation, integrating native Android features,
+I played a key role in modernizing the Android application by leading the migration to Jetpack Compose, restructuring app navigation, integrating native Android features,
+introducing Kotlin Multiplatform modules to share code and ui between Android and iOS, strengthening CI/CD pipelines,
 and delivering measurable performance improvements.</string>
     <string name="work_project_hey_obi_bullet_card_0_title">Architecture &amp; Migration</string>
-    <string name="work_project_hey_obi_bullet_card_0_item_0">Led UI migration from XML to Jetpack Compose</string>
-    <string name="work_project_hey_obi_bullet_card_0_item_1">Converted XML-based navigation to Compose Navigation</string>
+    <string name="work_project_hey_obi_bullet_card_0_item_0">Led UI &amp; Navigation migration from XML to Jetpack Compose</string>
+    <string name="work_project_hey_obi_bullet_card_0_item_1">Introduced KMP module to share code and ui between Android &amp; iOS</string>
     <string name="work_project_hey_obi_bullet_card_0_item_2">Unified multi-database architecture into a single scalable database</string>
     <string name="work_project_hey_obi_bullet_card_0_item_3">Migrated translations to Tolgee with a custom Gradle plugin</string>
     <string name="work_project_hey_obi_bullet_card_1_title">CI/CD &amp; Automation</string>

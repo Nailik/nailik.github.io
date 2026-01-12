@@ -133,13 +133,12 @@
     <string name="month_october">Oktober</string>
     <string name="month_november">November</string>
     <string name="month_december">Dezember</string>
-    <string name="work_project_hey_obi_introduction">Die Apps heyOBI und heyOBI Profi bedienen über 3 Millionen Nutzer im OBI-Baumarkt-Ökosystem.
-Ich spielte eine zentrale Rolle bei der Modernisierung der Android-App, leitete die Migration zu Jetpack Compose,
-stärkte die CI/CD-Pipelines, strukturierte die App-Navigation neu, integrierte native Android-Funktionen
-und erzielte messbare Performance-Verbesserungen.</string>
+    <string name="work_project_hey_obi_introduction">Die heyOBI und heyOBI Profi Apps werden von über 3 Millionen Nutzern im OBI-Baumarkt-Ökosystem verwendet.
+Ich habe maßgeblich zur Modernisierung der Android-App beigetragen — durch die Leitung der Migration zu Jetpack Compose, die Neustrukturierung der Navigation und die Integration nativer Android-Features.
+Zudem habe ich Kotlin Multiplatform Module eingeführt, um Code und UI zwischen Android und iOS zu teilen, CI/CD-Pipelines aufgesetzt und messbare Performance-Verbesserungen erzielt.</string>
     <string name="work_project_hey_obi_bullet_card_0_title">Architektur &amp; Migration</string>
-    <string name="work_project_hey_obi_bullet_card_0_item_0">Leitung der UI-Migration von XML zu Jetpack Compose</string>
-    <string name="work_project_hey_obi_bullet_card_0_item_1">Umstellung der XML-Navigation auf Compose Navigation</string>
+    <string name="work_project_hey_obi_bullet_card_0_item_0">Leitung der UI &amp; Navigations-Migration von XML zu Jetpack Compose</string>
+    <string name="work_project_hey_obi_bullet_card_0_item_1">KMP-Modul für gemeinsamen Code und UI zwischen Android und iOS eingeführt</string>
     <string name="work_project_hey_obi_bullet_card_0_item_2">Vereinheitlichung einer Multi-Datenbank-Architektur in eine skalierbare Einzeldatenbank</string>
     <string name="work_project_hey_obi_bullet_card_0_item_3">Migration der Übersetzungen zu Tolgee mit eigenem Gradle-Plugin</string>
     <string name="work_project_hey_obi_bullet_card_1_title">CI/CD &amp; Automatisierung</string>
