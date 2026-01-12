@@ -18,8 +18,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material.icons.outlined.SpaceDashboard
 import androidx.compose.material.icons.outlined.ViewTimeline
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -34,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
@@ -41,6 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import de.eller.kilian.Employer
+import de.eller.kilian.Home
 import de.eller.kilian.LocalDarkModeScope
 import de.eller.kilian.Project
 import de.eller.kilian.ProvidePreviewScopes
@@ -49,7 +53,10 @@ import de.eller.kilian.components.EqualSizeFlowRow
 import de.eller.kilian.components.SkillChip
 import de.eller.kilian.components.SkillChipWeight
 import de.eller.kilian.components.WithSharedTransitionScope
+import de.eller.kilian.logos.LogoGooglePlayStore
+import de.eller.kilian.logos.Logos
 import de.eller.kilian.resources.Res
+import de.eller.kilian.resources.button_google_play
 import de.eller.kilian.resources.footer
 import de.eller.kilian.resources.nav_item_title_projects
 import de.eller.kilian.resources.pane_home_name
@@ -141,6 +148,20 @@ fun HomePane(
                             },
                             text = stringResource(currentEmployer.company),
                         )
+                    }
+                    val uriHandler = LocalUriHandler.current
+                    Button(
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                            .pointerHoverIcon(PointerIcon.Hand),
+                        onClick = { uriHandler.openUri(Home.cvUri) },
+                    ) {
+                        Image(
+                            modifier = Modifier.padding(end = 8.dp),
+                            imageVector = Icons.Default.CloudDownload,
+                            contentDescription = null,
+                        )
+                        Text(stringResource(Res.string.button_google_play))
                     }
                 }
             }

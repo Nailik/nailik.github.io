@@ -308,7 +308,13 @@ enum class NavItems(
         iconSelected = Icons.Filled.Info,
         destination = AboutEntry,
     );
+}
 
+/**
+ * Anything displayed on home screen
+ */
+data object Home {
+    val cvUri: String = "https://raw.githubusercontent.com/Nailik/nailik.github.io/refs/heads/main/docs/composeResources/de.eller.kilian.resources/files/cv_Kilian_Eller.pdf"
 }
 
 /**
