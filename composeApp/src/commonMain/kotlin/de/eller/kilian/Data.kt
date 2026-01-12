@@ -104,6 +104,7 @@ import de.eller.kilian.resources.nav_item_title_about
 import de.eller.kilian.resources.nav_item_title_home
 import de.eller.kilian.resources.nav_item_title_projects
 import de.eller.kilian.resources.nav_item_title_timeline
+import de.eller.kilian.resources.pane_home_download_cv
 import de.eller.kilian.resources.project_battleship_description
 import de.eller.kilian.resources.project_battleship_title
 import de.eller.kilian.resources.project_bialetti_bullet_card_0_item_0
@@ -314,7 +315,7 @@ enum class NavItems(
  * Anything displayed on home screen
  */
 data object Home {
-    val cvUri: String = "https://raw.githubusercontent.com/Nailik/nailik.github.io/refs/heads/main/docs/composeResources/de.eller.kilian.resources/files/CV_Kilian_Eller.pdf"
+    const val CV_URI: String = "https://raw.githubusercontent.com/Nailik/nailik.github.io/refs/heads/main/docs/composeResources/de.eller.kilian.resources/files/CV_Kilian_Eller.pdf"
 }
 
 /**

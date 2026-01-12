@@ -59,6 +59,7 @@ import de.eller.kilian.resources.Res
 import de.eller.kilian.resources.button_google_play
 import de.eller.kilian.resources.footer
 import de.eller.kilian.resources.nav_item_title_projects
+import de.eller.kilian.resources.pane_home_download_cv
 import de.eller.kilian.resources.pane_home_name
 import de.eller.kilian.resources.profile_pic
 import de.eller.kilian.resources.timeline_employer_section_title
@@ -154,14 +155,14 @@ fun HomePane(
                         modifier = Modifier
                             .padding(bottom = 8.dp)
                             .pointerHoverIcon(PointerIcon.Hand),
-                        onClick = { uriHandler.openUri(Home.cvUri) },
+                        onClick = { uriHandler.openUri(Home.CV_URI) },
                     ) {
                         Image(
                             modifier = Modifier.padding(end = 8.dp),
                             imageVector = Icons.Default.CloudDownload,
                             contentDescription = null,
                         )
-                        Text(stringResource(Res.string.button_google_play))
+                        Text(stringResource(Res.string.pane_home_download_cv))
                     }
                 }
             }
