@@ -1,7 +1,7 @@
 [versions]
 agp = "9.0.0"
 compose = "1.11.0-SNAPSHOT+ok-check-kotlin-2-3-20"
-kotlin = "2.3.0"
+kotlin = "2.3.20-Beta2"
 kotlinxDatetime = "0.7.1-0.6.x-compat"
 kotlinxSerializationJson = "1.10.0"
 material3 = "1.11.0-SNAPSHOT+ok-check-kotlin-2-3-20"
