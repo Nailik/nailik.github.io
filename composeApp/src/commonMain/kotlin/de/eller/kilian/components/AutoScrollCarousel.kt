@@ -5,7 +5,6 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,8 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
@@ -43,14 +40,11 @@ fun AutoScrollCarousel(
     maxItemWidth: Dp = Dp.Unspecified,
     images: ImmutableList<DrawableResource>,
 ) {
-
     val coroutineScope = rememberCoroutineScope()
     val carouselState = rememberCarouselState { images.size }
-        val width = with(LocalDensity.current) { maxItemWidth.toPx() }
+
+    val width = with(LocalDensity.current) { maxItemWidth.toPx() - 16.dp.toPx() }
         LaunchedEffect(Unit) {
-            //there is a bug in material therefore animation is disabled
-            return@LaunchedEffect
-            @Suppress("KotlinUnreachableCode")
             coroutineScope.launch {
                 delay(1000)
                 var direction = 1
@@ -58,40 +52,24 @@ fun AutoScrollCarousel(
                     carouselState.animateScrollBy(
                         (width * (images.size)) * direction,
                         tween(
-                            durationMillis = 1000 * (images.size),
-                            easing = LinearEasing
+                            durationMillis = 1200 * (images.size),
+                            easing = LinearEasing,
                         )
                     )
                     direction *= -1
                 }
-                /*var item = images.size
-                while (true) {
-                    carouselState.animateScrollToItem(
-                        item,
-                        tween(
-                            durationMillis = 1000 * (images.size ),
-                            easing = LinearEasing
-                        )
-                    )
-                    item = when (item) {
-                        0 -> images.size
-                        else -> 0
-                    }
-                }*/
             }
         }
 
     BoxWithConstraints(
         modifier = Modifier.animateContentSize()
     ) {
-
-        val isClickable = maxWidth < ((maxItemWidth + 16.dp) * images.size + 16.dp)
-
         HorizontalCenteredHeroCarousel(
             modifier = modifier.padding(horizontal = 16.dp),
             state = carouselState,
             itemSpacing = 16.dp,
             maxItemWidth = maxItemWidth,
+            userScrollEnabled = false,
         ) { index ->
             WithSharedTransitionScope(
                 enabled = index == 0 && initialImageAnimationContentState != null
@@ -100,15 +78,6 @@ fun AutoScrollCarousel(
                     modifier = Modifier
                         .fillMaxWidth()
                         .maskClip(MaterialTheme.shapes.small)
-                        .let {
-                            if (isClickable) {
-                                it.clickable {
-                                    coroutineScope.launch {
-                                        carouselState.animateScrollToItem(index)
-                                    }
-                                }.pointerHoverIcon(PointerIcon.Hand)
-                            } else it
-                        }
                         .background(MaterialTheme.colorScheme.surfaceContainer)
                         .sharedElement(
                             sharedContentState = rememberSharedContentState(
