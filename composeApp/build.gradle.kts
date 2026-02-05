@@ -64,7 +64,7 @@ kotlin {
 }
 
 dependencies {
-    "androidRuntimeClasspath"(libs.compose.ui.tooling)
+    androidRuntimeClasspath(libs.compose.ui.tooling)
 }
 
 aboutLibraries {
