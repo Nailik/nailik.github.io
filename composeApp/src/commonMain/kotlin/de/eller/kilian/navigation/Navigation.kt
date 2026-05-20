@@ -51,7 +51,9 @@ import androidx.compose.material3.WideNavigationRailValue
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
+import androidx.compose.material3.adaptive.layout.PaneExpansionAnchor
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
+import androidx.compose.material3.adaptive.layout.rememberPaneExpansionState
 import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
 import androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneStrategy
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuite
@@ -366,11 +368,29 @@ private fun Content(
             .copy(horizontalPartitionSpacerSize = 0.dp)
         val isSinglePane = paneScaffoldDirective.maxHorizontalPartitions == 1
 
+        val hasDetail = backStack.any { it is DetailEntry }
+        val paneExpansionState = rememberPaneExpansionState(
+            anchors = listOf(PaneExpansionAnchor.Proportion(1f)),
+            initialAnchoredIndex = if (hasDetail) -1 else 0,
+        )
+        LaunchedEffect(hasDetail) {
+            if (!hasDetail) {
+                paneExpansionState.setFirstPaneProportion(1f)
+            } else {
+                paneExpansionState.clear()
+            }
+        }
+
         NavDisplay(
             backStack = backStack,
             onBack = { backStack.removeLastOrNull() },
             entryDecorators = persistentListOf(rememberSaveableStateHolderNavEntryDecorator()),
-            sceneStrategies = persistentListOf(rememberListDetailSceneStrategy(directive = paneScaffoldDirective)),
+            sceneStrategies = persistentListOf(
+                rememberListDetailSceneStrategy(
+                    directive = paneScaffoldDirective,
+                    paneExpansionState = paneExpansionState,
+                )
+            ),
             entryProvider = entryProvider {
                 entry<HomeEntry> {
                     HomePane(
@@ -645,7 +665,7 @@ private inline fun <reified T : DetailEntry> SnapshotStateList<NavItem>.navigate
 }
 
 @Composable
-private fun calculateNavigationSuiteType() = with(currentWindowAdaptiveInfo()) {
+private fun calculateNavigationSuiteType() = with(currentWindowAdaptiveInfoV2()) {
     when (windowSizeClass.minWidthDp) {
         0 -> NavigationSuiteType.ShortNavigationBarCompact
         WIDTH_DP_MEDIUM_LOWER_BOUND -> NavigationSuiteType.ShortNavigationBarMedium
