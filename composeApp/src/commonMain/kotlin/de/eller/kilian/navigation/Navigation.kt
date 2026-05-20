@@ -8,15 +8,21 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
@@ -49,7 +55,6 @@ import androidx.compose.material3.WideNavigationRailItem
 import androidx.compose.material3.WideNavigationRailState
 import androidx.compose.material3.WideNavigationRailValue
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.material3.adaptive.layout.PaneExpansionAnchor
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
@@ -369,9 +374,32 @@ private fun Content(
         val isSinglePane = paneScaffoldDirective.maxHorizontalPartitions == 1
 
         val hasDetail = backStack.any { it is DetailEntry }
+        val detailAnchors = listOf(
+            PaneExpansionAnchor.Proportion(0.25f),
+            PaneExpansionAnchor.Proportion(0.4f),
+            PaneExpansionAnchor.Proportion(0.5f),
+            PaneExpansionAnchor.Proportion(0.6f),
+            PaneExpansionAnchor.Proportion(0.75f),
+        )
+        val noDetailAnchors = listOf(PaneExpansionAnchor.Proportion(1f))
+        var scaffoldWidth by remember { mutableStateOf(0f) }
+        val trackedOffset = remember { mutableStateOf(0f) }
+        LaunchedEffect(hasDetail, scaffoldWidth) {
+            if (scaffoldWidth > 0f) {
+                trackedOffset.value = if (hasDetail) scaffoldWidth * 0.5f else scaffoldWidth
+            }
+        }
         val paneExpansionState = rememberPaneExpansionState(
-            anchors = listOf(PaneExpansionAnchor.Proportion(1f)),
-            initialAnchoredIndex = if (hasDetail) -1 else 0,
+            anchors = if (hasDetail) detailAnchors else noDetailAnchors,
+            initialAnchoredIndex = if (hasDetail) 2 else 0,
+            consumeDragDelta = { delta ->
+                val minOffset = scaffoldWidth * 0.2f
+                val maxOffset = scaffoldWidth * 0.8f
+                val newOffset = (trackedOffset.value + delta).coerceIn(minOffset, maxOffset)
+                val consumed = newOffset - trackedOffset.value
+                trackedOffset.value = newOffset
+                consumed
+            },
         )
         LaunchedEffect(hasDetail) {
             if (!hasDetail) {
@@ -382,6 +410,7 @@ private fun Content(
         }
 
         NavDisplay(
+            modifier = Modifier.onGloballyPositioned { scaffoldWidth = it.size.width.toFloat() },
             backStack = backStack,
             onBack = { backStack.removeLastOrNull() },
             entryDecorators = persistentListOf(rememberSaveableStateHolderNavEntryDecorator()),
@@ -389,6 +418,19 @@ private fun Content(
                 rememberListDetailSceneStrategy(
                     directive = paneScaffoldDirective,
                     paneExpansionState = paneExpansionState,
+                    paneExpansionDragHandle = if (hasDetail) {
+                        { state ->
+                            val interactionSource = remember { MutableInteractionSource() }
+                            VerticalDragHandle(
+                                modifier = Modifier.paneExpansionDraggable(
+                                    state = state,
+                                    minTouchTargetSize = 48.dp,
+                                    interactionSource = interactionSource,
+                                ),
+                                interactionSource = interactionSource,
+                            )
+                        }
+                    } else null,
                 )
             ),
             entryProvider = entryProvider {
@@ -701,3 +743,31 @@ private val NavigationSuiteType.navigationType: NavigationType
 
 private val WideNavigationRailState.expanding: Boolean
     get() = (this.isAnimating && this.targetValue == WideNavigationRailValue.Expanded) || this.currentValue == WideNavigationRailValue.Expanded
+
+@Composable
+private fun VerticalDragHandle(
+    modifier: Modifier = Modifier,
+    interactionSource: MutableInteractionSource,
+) {
+    val isCollected = interactionSource.collectIsDraggedAsState()
+    val handleColor = if (isCollected.value) {
+        MaterialTheme.colorScheme.onSurface
+    } else {
+        MaterialTheme.colorScheme.outline
+    }
+    Box(
+        modifier = modifier
+            .fillMaxHeight()
+            .width(48.dp)
+            .pointerHoverIcon(PointerIcon.Hand),
+        contentAlignment = Alignment.Center,
+    ) {
+        Box(
+            modifier = Modifier
+                .width(4.dp)
+                .fillMaxHeight(0.2f)
+                .clip(MaterialTheme.shapes.small)
+                .background(handleColor),
+        )
+    }
+}
