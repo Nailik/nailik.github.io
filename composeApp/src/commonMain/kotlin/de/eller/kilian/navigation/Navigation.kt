@@ -50,6 +50,7 @@ import androidx.compose.material3.WideNavigationRailState
 import androidx.compose.material3.WideNavigationRailValue
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
 import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
 import androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneStrategy
@@ -361,7 +362,7 @@ private fun Content(
             ),
         tonalElevation = 6.dp,
     ) {
-        val paneScaffoldDirective = calculatePaneScaffoldDirective(currentWindowAdaptiveInfo())
+        val paneScaffoldDirective = calculatePaneScaffoldDirective(currentWindowAdaptiveInfoV2())
             .copy(horizontalPartitionSpacerSize = 0.dp)
         val isSinglePane = paneScaffoldDirective.maxHorizontalPartitions == 1
 
@@ -369,7 +370,7 @@ private fun Content(
             backStack = backStack,
             onBack = { backStack.removeLastOrNull() },
             entryDecorators = persistentListOf(rememberSaveableStateHolderNavEntryDecorator()),
-            sceneStrategy = rememberListDetailSceneStrategy(directive = paneScaffoldDirective),
+            sceneStrategies = persistentListOf(rememberListDetailSceneStrategy(directive = paneScaffoldDirective)),
             entryProvider = entryProvider {
                 entry<HomeEntry> {
                     HomePane(
@@ -389,7 +390,7 @@ private fun Content(
                 }
 
                 entry<ProjectsEntry>(
-                    metadata = ListDetailSceneStrategy.listPane(sceneKey = SCENE_PROJECTS)
+                    metadata = remember { ListDetailSceneStrategy.listPane(sceneKey = SCENE_PROJECTS) }
                 ) {
                     ProjectsPane(
                         showSinglePaneContent = isSinglePane,
@@ -413,7 +414,7 @@ private fun Content(
                 }
 
                 entry<AboutEntry>(
-                    metadata = ListDetailSceneStrategy.listPane(sceneKey = SCENE_LIBRARY)
+                    metadata = remember { ListDetailSceneStrategy.listPane(sceneKey = SCENE_LIBRARY) }
                 ) {
                     AboutPane(
                         showSinglePaneContent = isSinglePane,
@@ -425,7 +426,7 @@ private fun Content(
                 }
 
                 entry<LibraryDetailEntry>(
-                    metadata = ListDetailSceneStrategy.detailPane(sceneKey = SCENE_LIBRARY)
+                    metadata = remember { ListDetailSceneStrategy.detailPane(sceneKey = SCENE_LIBRARY) }
                 ) { (library) ->
                     LibraryDetailPane(
                         showSinglePaneContent = isSinglePane,
@@ -435,7 +436,7 @@ private fun Content(
                 }
 
                 entry<ProjectDetailEntry>(
-                    metadata = ListDetailSceneStrategy.detailPane(sceneKey = SCENE_PROJECTS)
+                    metadata = remember { ListDetailSceneStrategy.detailPane(sceneKey = SCENE_PROJECTS) }
                 ) { (project) ->
                     ProjectDetailPane(
                         project = project,
@@ -445,7 +446,7 @@ private fun Content(
                 }
 
                 entry<EmployerDetailEntry>(
-                    metadata = ListDetailSceneStrategy.detailPane(sceneKey = SCENE_TIMELINE)
+                    metadata = remember { ListDetailSceneStrategy.detailPane(sceneKey = SCENE_TIMELINE) }
                 ) { (employer) ->
                     EmployerDetailPane(
                         employer = employer,

@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "de.eller.kilian.android"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "de.eller.kilian.android"
         minSdk = 23
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
     }
@@ -22,16 +22,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_22
-        targetCompatibility = JavaVersion.VERSION_22
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
     }
 
     buildFeatures {
         compose = true
-    }
-
-    kotlin {
-        jvmToolchain(22)
     }
 }
 

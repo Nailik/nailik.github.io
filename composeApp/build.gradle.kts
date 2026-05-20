@@ -21,12 +21,11 @@ kotlin {
         binaries.executable()
     }
     jvm("desktop")
-    @Suppress("UnstableApiUsage")
-    androidLibrary {
-        compileSdk = 36
+    android {
+        compileSdk = 37
         namespace = "de.eller.kilian"
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_22)
+            jvmTarget.set(JvmTarget.JVM_25)
         }
         experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
     }
@@ -50,6 +49,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.collections.immutable)
         }
         webMain.dependencies {
             implementation(libs.navigation3.browser)
