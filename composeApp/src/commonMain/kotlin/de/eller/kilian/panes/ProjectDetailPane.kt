@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Shop
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.Button
@@ -208,11 +206,10 @@ private class ProjectPreviewProvider : PreviewParameterProvider<Project> {
     override val values = Project.entries.asSequence()
 }
 
-
 @Preview(widthDp = 1600, heightDp = 1800)
 @Composable
 private fun ProjectDetailPanePreview(
-    @PreviewParameter(ProjectPreviewProvider::class) project: Project
+    @PreviewParameter(ProjectPreviewProvider::class) project: Project,
 ) {
     ProvidePreviewScopes {
         ProjectDetailPane(

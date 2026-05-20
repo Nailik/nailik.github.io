@@ -304,7 +304,6 @@ private fun EmployerListItem(
     )
 }
 
-
 /**
  * Item that shows information about a previous education step
  */

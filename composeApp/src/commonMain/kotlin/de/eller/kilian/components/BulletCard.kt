@@ -27,9 +27,8 @@ data class BulletCardData(
     val title: StringResource,
     val icon: ImageVector,
     val iconDarkMode: ImageVector = icon,
-    val bullets: ImmutableList<StringResource>
+    val bullets: ImmutableList<StringResource>,
 )
-
 
 @Composable
 fun BulletElevatedCard(
@@ -53,7 +52,7 @@ fun BulletOutlinedCard(
 
 @Composable
 private fun BulledCardContent(
-    bulletCardData: BulletCardData
+    bulletCardData: BulletCardData,
 ) {
     Column(
         modifier = Modifier.padding(16.dp),
@@ -80,7 +79,7 @@ private fun BulledCardContent(
         }
 
         bulletCardData.bullets.forEach { bullet ->
-            Text("• " + stringResource(bullet),)
+            Text("• " + stringResource(bullet))
         }
     }
 }

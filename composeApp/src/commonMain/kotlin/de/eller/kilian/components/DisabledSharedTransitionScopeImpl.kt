@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.LayoutDirection
  * Mocks SharedTransitionScope with disabled animations
  */
 class DisabledSharedTransitionScopeImpl(
-    private val lookaheadScope: LookaheadScope
+    private val lookaheadScope: LookaheadScope,
 ) : SharedTransitionScope, LookaheadScope by lookaheadScope {
 
     override var isTransitionActive: Boolean by mutableStateOf(false)
@@ -33,7 +33,7 @@ class DisabledSharedTransitionScopeImpl(
 
     override fun Modifier.renderInSharedTransitionScopeOverlay(
         zIndexInOverlay: Float,
-        renderInOverlay: () -> Boolean
+        renderInOverlay: () -> Boolean,
     ): Modifier = this
 
     override fun Modifier.sharedElement(
@@ -43,7 +43,7 @@ class DisabledSharedTransitionScopeImpl(
         placeholderSize: PlaceholderSize,
         renderInOverlayDuringTransition: Boolean,
         zIndexInOverlay: Float,
-        clipInOverlayDuringTransition: OverlayClip
+        clipInOverlayDuringTransition: OverlayClip,
     ): Modifier = this
 
     override fun Modifier.sharedBounds(
@@ -56,7 +56,7 @@ class DisabledSharedTransitionScopeImpl(
         placeholderSize: PlaceholderSize,
         renderInOverlayDuringTransition: Boolean,
         zIndexInOverlay: Float,
-        clipInOverlayDuringTransition: OverlayClip
+        clipInOverlayDuringTransition: OverlayClip,
     ): Modifier = this
 
     override fun Modifier.sharedElementWithCallerManagedVisibility(
@@ -66,7 +66,7 @@ class DisabledSharedTransitionScopeImpl(
         placeholderSize: PlaceholderSize,
         renderInOverlayDuringTransition: Boolean,
         zIndexInOverlay: Float,
-        clipInOverlayDuringTransition: OverlayClip
+        clipInOverlayDuringTransition: OverlayClip,
     ): Modifier = this
 
     override fun OverlayClip(clipShape: Shape) = object : OverlayClip {
@@ -74,7 +74,7 @@ class DisabledSharedTransitionScopeImpl(
             sharedContentState: SharedTransitionScope.SharedContentState,
             bounds: Rect,
             layoutDirection: LayoutDirection,
-            density: Density
+            density: Density,
         ): Path? = null
     }
 

@@ -16,9 +16,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Shop
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -165,7 +162,6 @@ fun EmployerDetailPane(
     }
 }
 
-
 @Composable
 private fun WorkProject(
     project: WorkProjects,
@@ -251,7 +247,7 @@ private class EmployerPreviewProvider : PreviewParameterProvider<Employer> {
 @Preview(widthDp = 1600, heightDp = 1800)
 @Composable
 private fun EmployerDetailPanePreview(
-    @PreviewParameter(EmployerPreviewProvider::class) employer: Employer
+    @PreviewParameter(EmployerPreviewProvider::class) employer: Employer,
 ) {
     ProvidePreviewScopes {
         EmployerDetailPane(

@@ -74,7 +74,6 @@ fun InformationChip(
     }
 }
 
-
 private const val LeadingIconLayoutId = "leadingIcon"
 private const val LabelLayoutId = "label"
 private const val TrailingIconLayoutId = "trailingIcon"

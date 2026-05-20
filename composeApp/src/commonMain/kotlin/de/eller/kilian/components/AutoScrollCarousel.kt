@@ -44,22 +44,22 @@ fun AutoScrollCarousel(
     val carouselState = rememberCarouselState { images.size }
 
     val width = with(LocalDensity.current) { maxItemWidth.toPx() - 16.dp.toPx() }
-        LaunchedEffect(Unit) {
-            coroutineScope.launch {
-                delay(1000)
-                var direction = 1
-                while (true) {
-                    carouselState.animateScrollBy(
-                        (width * (images.size)) * direction,
-                        tween(
-                            durationMillis = 1200 * (images.size),
-                            easing = LinearEasing,
-                        )
+    LaunchedEffect(Unit) {
+        coroutineScope.launch {
+            delay(1000)
+            var direction = 1
+            while (true) {
+                carouselState.animateScrollBy(
+                    (width * (images.size)) * direction,
+                    tween(
+                        durationMillis = 1200 * (images.size),
+                        easing = LinearEasing,
                     )
-                    direction *= -1
-                }
+                )
+                direction *= -1
             }
         }
+    }
 
     BoxWithConstraints(
         modifier = Modifier.animateContentSize()

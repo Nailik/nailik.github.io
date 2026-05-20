@@ -182,7 +182,6 @@ private fun ProjectDescription(
     }
 }
 
-
 @Composable
 private fun ProjectSkills(
     modifier: Modifier = Modifier,

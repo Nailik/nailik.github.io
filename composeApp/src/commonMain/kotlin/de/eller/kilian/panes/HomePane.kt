@@ -22,7 +22,6 @@ import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material.icons.outlined.SpaceDashboard
 import androidx.compose.material.icons.outlined.ViewTimeline
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -53,10 +52,7 @@ import de.eller.kilian.components.EqualSizeFlowRow
 import de.eller.kilian.components.SkillChip
 import de.eller.kilian.components.SkillChipWeight
 import de.eller.kilian.components.WithSharedTransitionScope
-import de.eller.kilian.logos.LogoGooglePlayStore
-import de.eller.kilian.logos.Logos
 import de.eller.kilian.resources.Res
-import de.eller.kilian.resources.button_google_play
 import de.eller.kilian.resources.footer
 import de.eller.kilian.resources.nav_item_title_projects
 import de.eller.kilian.resources.pane_home_download_cv
@@ -329,7 +325,6 @@ fun HomePane(
         }
     }
 }
-
 
 @Preview(widthDp = 1920, heightDp = 1080)
 @Composable

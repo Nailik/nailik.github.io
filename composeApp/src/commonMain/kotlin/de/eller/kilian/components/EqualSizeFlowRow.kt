@@ -30,7 +30,6 @@ fun EqualSizeFlowRow(
         val vSpacingPx = verticalSpacing.roundToPx()
         val maxExtraPx = maxExtraWidth.roundToPx()
 
-
         // 1. Compute max intrinsic width among all children
         val maxWidth = measurables.maxOf {
             try {

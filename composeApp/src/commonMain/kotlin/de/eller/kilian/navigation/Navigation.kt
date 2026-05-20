@@ -17,15 +17,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
@@ -261,7 +260,6 @@ private fun TopAppBarActions(modifier: Modifier) {
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 private fun AppBarScope.navigationBarItem(
@@ -521,7 +519,6 @@ private fun Content(
     }
 }
 
-
 @Composable
 private fun AdaptiveNavigationSuite(
     navigationSuiteType: NavigationSuiteType,
@@ -533,7 +530,7 @@ private fun AdaptiveNavigationSuite(
             WideNavigationRail(
                 state = wideNavigationRailState,
                 header = {
-                    if(navigationSuiteType != NavigationSuiteType.NavigationRail) {
+                    if (navigationSuiteType != NavigationSuiteType.NavigationRail) {
                         WideNavigationRailButton(
                             railState = wideNavigationRailState,
                         )
@@ -607,7 +604,6 @@ private fun NavigationItem(
         navigationSuiteType = navigationSuiteType,
     )
 }
-
 
 /**
  * Adaptive navigation item to be shown in Bar or Rail
@@ -713,11 +709,12 @@ private fun calculateNavigationSuiteType() = with(currentWindowAdaptiveInfoV2())
         WIDTH_DP_MEDIUM_LOWER_BOUND -> NavigationSuiteType.ShortNavigationBarMedium
         WIDTH_DP_EXPANDED_LOWER_BOUND -> when {
             windowSizeClass.minHeightDp < HEIGHT_DP_MEDIUM_LOWER_BOUND -> NavigationSuiteType.NavigationRail
-            else ->  NavigationSuiteType.WideNavigationRailCollapsed
+            else -> NavigationSuiteType.WideNavigationRailCollapsed
         }
+
         else -> when {
             windowSizeClass.minHeightDp < HEIGHT_DP_MEDIUM_LOWER_BOUND -> NavigationSuiteType.NavigationRail
-            else ->  NavigationSuiteType.WideNavigationRailExpanded
+            else -> NavigationSuiteType.WideNavigationRailExpanded
         }
     }
 }
@@ -739,7 +736,6 @@ private val NavigationSuiteType.navigationType: NavigationType
             this == NavigationSuiteType.WideNavigationRailExpanded ||
             this == NavigationSuiteType.NavigationRail
         ) NavigationRail else NavigationBar
-
 
 private val WideNavigationRailState.expanding: Boolean
     get() = (this.isAnimating && this.targetValue == WideNavigationRailValue.Expanded) || this.currentValue == WideNavigationRailValue.Expanded

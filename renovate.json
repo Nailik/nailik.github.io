@@ -3,7 +3,9 @@
   "extends": [
     "config:base"
   ],
-  "baseBranches": ["main"],
+  "baseBranches": [
+    "main"
+  ],
   "dependencyDashboard": false,
   "prConcurrentLimit": 1,
   "branchConcurrentLimit": 1,
@@ -12,7 +14,9 @@
   "groupName": "all-dependencies",
   "packageRules": [
     {
-      "matchPackagePatterns": [".*"],
+      "matchPackagePatterns": [
+        ".*"
+      ],
       "groupName": "all-dependencies",
       "groupSlug": "all-dependencies",
       "separateMinorPatch": false,

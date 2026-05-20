@@ -38,7 +38,7 @@ fun ProvideSharedTransitionScope(
 fun WithSharedTransitionScope(
     visible: Boolean = true,
     enabled: Boolean = true,
-    block: @Composable SharedTransitionScope.(AnimatedContentScope) -> Unit
+    block: @Composable SharedTransitionScope.(AnimatedContentScope) -> Unit,
 ) {
     if (visible) {
         val animatedContentScope = LocalNavAnimatedContentScope.current
