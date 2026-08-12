@@ -348,7 +348,7 @@ enum class Social(
         icon = Logos.LogoStackOverflow,
     ),
     Mail(
-        uri = "mailto:mail@kilianeller.de",
+        uri = "mailto:kilian-eller@outlook.de",
         title = Res.string.social_mail,
         icon = Icons.Filled.Mail,
         hasColor = false,
